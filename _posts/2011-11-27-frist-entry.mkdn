@@ -1,0 +1,13 @@
+---
+layout: post
+title: 1st try using jekyll
+tags: [jekyll]
+---
+
+afd
+This is some text.
+
+------------
+### does this matter?
+
+more text

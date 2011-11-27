@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+    http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+<url>
+  <loc>http://olesenm.github.com/</loc>
+  <lastmod>2011-43-27</lastmod>
+  <priority>1.0</priority>
+  <changefreq>daily</changefreq>
+</url>
+<url>
+  <loc>http://olesenm.github.com/about/</loc>
+  <lastmod>2011-43-27</lastmod>
+  <priority>0.5</priority>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://olesenm.github.com/archives/</loc>
+  <lastmod>2011-43-27</lastmod>
+  <priority>0.5</priority>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://olesenm.github.com/tags/</loc>
+  <lastmod>2011-43-27</lastmod>
+  <priority>0.5</priority>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://olesenm.github.com/other/</loc>
+  <lastmod>2011-43-27</lastmod>
+  <priority>0.5</priority>
+  <changefreq>weekly</changefreq>
+</url>
+</url>
+  <loc>http://olesenm.github.com/page2/</loc>
+  <lastmod>2011-43-27</lastmod>
+  <priority>0.1</priority>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://olesenm.github.com/page3/</loc>
+  <lastmod>2011-43-27</lastmod>
+  <priority>0.1</priority>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://olesenm.github.com/page4/</loc>
+  <lastmod>2011-43-27</lastmod>
+  <priority>0.1</priority>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://olesenm.github.com/page5/</loc>
+  <lastmod>2011-43-27</lastmod>
+  <priority>0.1</priority>
+  <changefreq>weekly</changefreq>
+</url>
+
+<url>
+  <loc>http://olesenm.github.com/2011/11/27/frist-entry/</loc>
+  <lastmod>2011-00-27</lastmod>
+  <priority>0.5</priority>
+  <changefreq>weekly</changefreq>
+</url>
+
+</urlset>
