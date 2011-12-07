@@ -1,7 +1,8 @@
 destination: ./_site
+baseurl:     /
 auto:        false
 lsi:         false
-server_port: 4000
+server_port: 8080
 pygments:    true
 markdown:    maruku
 #permalink:   date

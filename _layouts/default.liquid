@@ -3,7 +3,7 @@
 topnav:
   - text: Blog
     href: /
-    http: "http://eeknay.net/blog"
+    http: "http://blog.eeknay.net/"
   - text: Archives
     href: /archives/
   - text: Categories
@@ -12,6 +12,8 @@ topnav:
     href: /other/
   - text: Hello_World
     href: /test/
+  - text: Photos
+    href: "http://pics.eeknay.net"
   - text: About
     href: /about/
  
@@ -25,6 +27,10 @@ topnav:
 <meta name="language" content="en" />
 <link rel="stylesheet" type="text/css" href="/css/default.css" />
 <link rel="stylesheet" type="text/css" href="/css/syntax.css" />
+<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="http://eeknay.net/atom.xml" /> 
+<link rel="alternate" type="text/xml" title="RSS .92" href="http://eeknay.net/atom.xml" /> 
+<link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="http://eeknay.net/atom.xml" /> 
+
 </head>
 
 {% assign navTitle = 'Blog' %}
@@ -35,7 +41,7 @@ topnav:
 <body>
 <div class="page_margins">
   <div id="header">
-    <h2><a href="http://eeknay.net/blog">eeknay.net</a></h2>
+    <h2><a href="http://blog.eeknay.net/">eeknay.net</a></h2>
     <div class="clear"></div>
 
     <!-- begin: main navigation #nav -->
@@ -48,8 +54,6 @@ topnav:
           </li>
           {% endfor %}
           <li><a href="http://github.com/eeknay">GitHub</a></li>
-	  <li><a href="http://photos.eeknay.net">Photos</a></li>
-		
         </ul>
       </div>
     </div>
