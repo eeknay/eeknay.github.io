@@ -1,0 +1,13 @@
+---
+layout: post
+title: Domain ready, vserver running & jekyll somewhat understood
+tags: [jekyll, vserver, domain]
+---
+
+Today I finally got some stuff working.
+
+- The domain *eeknay.net* registered
+- rented vserver @ [greatnet](http://www.greatnet.de/ "Greatnet")
+- Dug into static page generator such as [hyde](http://hyde.github.com/ "hyde") and [jekyll](http://jekyllrb.com/ "jekyll") - went with jekyll
+
+My sever is currently running on CentOS and using lighttpd :)

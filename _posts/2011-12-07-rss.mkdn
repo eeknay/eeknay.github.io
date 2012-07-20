@@ -1,0 +1,17 @@
+---
+layout: post
+title: RSS up and running
+tags: [jekyll, rss]
+---
+
+After some very minimal fiddeling I now got a working RSS feed.
+
+I simply had to put the below
+
+{% highlight xml %}
+<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="http://eeknay.net/atom.xml" /> 
+<link rel="alternate" type="text/xml" title="RSS .92" href="http://eeknay.net/atom.xml" /> 
+<link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="http://eeknay.net/atom.xml" /> 
+{% endhighlight %}
+
+into my default layout `_layouts/default.liquid`
