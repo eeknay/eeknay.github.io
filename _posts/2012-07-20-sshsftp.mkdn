@@ -25,7 +25,7 @@ Match Group sftponly
 ### 3. Edit your friends shell access the /etc/passwd, i.e., change his shell to /bin/false
 
 {% highlight bash %}
-friend:x:1001:1001:friend,,,,:/home/fabian:/bin/false
+friend:x:1001:1001:friend,,,,:/home/friend:/bin/false
 {% endhighlight %}
 
 ### 4. Set up the rights with optional write access
