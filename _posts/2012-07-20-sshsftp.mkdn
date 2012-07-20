@@ -1,194 +1,43 @@
 ---
 layout: post
-title: Android - Kernel, Modules, and the Emulator
-tags: [android, kernel]
+title: SFTP SSH Jail
+tags: [linux, ssh, sftp]
 ---
 
-After cumbersome reading, a bunch of not so good howtos, and a lot of plain wrong information I finally got it right.
+Filesharing in 2012 still sucks. I just wanted a friend to be able to download a large file, more or less instant with not setup hassel.
 
-This will explain how I got the following to work:
+It turns out this is not possible ;) Windows, Linux, MacOSX dafuq?!
+Due to serious firewall fuck-up at me friends place I decided to setup an account on my box.
+But my fried should still be jailed in his home and the tranfer and the login should be secured.
 
-1. Getting the toolchain for building an Android kernel
-2. Getting the correct kernel to use with the emulator
-3. Compiling the kernel for the emulator
-4. Compiling a loadable kernel module (LKM) for the emulator
+Enter SFTP and SSH.
 
-### 1. Getting the toolchain for building an Android kernel
-
-The first thing is to the the Android NDK from http://developer.android.com/sdk/ndk/index.html and place it somewhere. For me its:
+### 1. Set up his user account *friend* and create a group *stftponly*
+### 2. Add this to your /etc/ssh/sshd_config file specifying the group behavoir
 
 {% highlight bash %}
-~/android-sdks/android-ndk-r4
+Match Group sftponly
+        ChrootDirectory /home/%u
+        ForceCommand    internal-sftp
+        AllowTcpForwarding      no
 {% endhighlight %}
 
-### 2. Getting the correct kernel to use with the emulator
-Since I did not want to fetch the extra large build environment for the whole Android platform, I only checked out the kernel the can be used with the emulator. It is called *Goldfish*.
-
-So you need to checkout the kernel using 
+### 3. Edit your friends shell access the /etc/passwd, i.e., change his shell to /bin/false
 
 {% highlight bash %}
-git clone git://android.git.kernel.org/kernel/common.git
+friend:x:1001:1001:friend,,,,:/home/fabian:/bin/false
 {% endhighlight %}
 
-
-After that you need to checkout the branch for *Goldfish* 
+### 4. Set up the rights with optional write access
 
 {% highlight bash %}
-git checkout -t origin/android-goldfish-2.6.29 -b goldfish
+sudo chown root /home/friend
+sudo chmod go-w /home/friend
+sudo mkdir /home/friend/writable
+sudo chown friend:sftponly /home/friend/writable
+sudo chmod ug+rwX /home/friend/writable
 {% endhighlight %}
 
-Take a look at all the branches to see the remote branches. I got confused since the master branch was actually empty.
-
-So now I have the Goldfish kernel residing at
-{% highlight bash %}
-~/android-sdks/kernelSource/goldfish
-{% endhighlight %}
-
-### 2. Compiling the kernel for the emulator
-
-The first thing to do is to get a <code>.config</code> for the kernel to be compiled.
-You can either pull the one from the running emulator extract it, and copy it to the kernel like
-
-{% highlight bash %}
-adb pull /proc/config.gz
-
-gunzip config.gz && cp config ~/android-sdks/kernelSource/goldfish/.config
-{% endhighlight %}
-
-or (which worked better for me) running 
-
-{% highlight bash %}
-make ARCH=arm goldfish_defconfig
-{% endhighlight %}
-
-from the goldfish kernel source.
-
-This is the preparation which is needed. Now this is my way to compile the kernel from *~/android-sdks/kernelSource/goldfish*
-
-{% highlight bash %}
-#!/bin/bash
-cd goldfish
-
-export CCOMPILER=~/android-sdks/android-ndk-r4/build/prebuilt/linux-x86/arm-eabi-4.4.0/bin/arm-eabi-
-
-make ARCH=arm CROSS_COMPILE=$CCOMPILER -j`grep 'processor' /proc/cpuinfo | wc -l`
-{% endhighlight %}
-
-Note that we are using the cross-compilation toolchain provided by the Android NDK in the option <code>CROSS_COMPILE</code>.
-
-Once this is done, we can run the kernel which is now located at
-
-{% highlight bash %}
-~android-sdks/kernelSource/goldfish/arch/arm/boot/zImage
-{% endhighlight %}
-
-We can now run the kernel using the emulator of the Android SDK (which needs to be installed) like this:
-{% highlight bash %}
-$WHEREVER_YOUR_EMULATOR_IS -kernel ~android-sdks/kernelSource/goldfish/arch/arm/boot/zImage -show-kernel-verbose -avd Android233 -partition-size 2047
-{% endhighlight %}
-
-*Android233* is my Android Virtual Device (AVD) which I created using the AVD manager from Eclipse. The base AVD <code>config.ini</code> is below:
-
-{% highlight bash %}
-hw.lcd.density=240
-sdcard.size=512M
-skin.name=WVGA800
-skin.path=platforms/android-10/skins/WVGA800
-hw.cpu.arch=arm
-abi.type=armeabi
-vm.heapSize=24
-snapshot.present=true
-hw.ramSize=256
-image.sysdir.1=platforms/android-10/images/
-{% endhighlight %}
-
-Note that SDCard is enabled and so are the snapshots which is more convenient for developing.
-
-### 4. Compiling a loadable kernel module (LKM) for the emulator
-
-So now that the emulator can run our custom compile kernel, lets compile a corresponding module. The code of the very simple *Hello* module is like this:
-
-{% highlight c %}
-#include <linux/module.h>  /* Needed by all modules */
-#include <linux/kernel.h>  /* Needed for KERN_ALERT */
-
-MODULE_LICENSE("GPL");
-MODULE_AUTHOR("eeknay, 2012");
-MODULE_DESCRIPTION("Demo module");
-
-int init_module(void)
-{
-	printk("<1>Hello world\n");
-	return 0;
-}
-
-void cleanup_module(void)
-{
-	printk(KERN_ALERT "Goodbye world 1.\n");
-}
-
-{% endhighlight %}
-
-In my case the code resides in <code>~android-sdks/kernelSource/goldfish/custom_modules/hello</code>.
-The Makefile for compiling the module form the directory is:
-{% highlight bash %}
-VERSION = 2
-PATCHLEVEL = 6
-SUBLEVEL = 29
-EXTRAVERSION = -00054-g5f01537
-
-obj-m += hello.o
-
-KDIR=~/android-sdks/kernelSource/goldfish
-PWD := $(shell pwd)
+This will basically turn /home/friend into a jail for the user with possible editable content (e.g., directories) in it.
 
 
-default:
-	make -C $(KDIR) ARCH=arm CROSS_COMPILE=~/android-sdks/android-ndk-r4/build/prebuilt/linux-x86/arm-eabi-4.4.0/bin/arm-eabi- SUBDIRS=$(PWD) modules
-
-clean:
-		make -C $(KDIR) ARCH=arm CROSS_COMPILE=~/android-sdks/android-ndk-r4/build/prebuilt/linux-x86/arm-eabi-4.4.0/bin/arm-eabi- SUBDIRS=$(PWD) clean
-{% endhighlight %}
-
-Here it is imporant the the module version number matches the kernel against which it is compiled and after that run.
-
-Before actually compiling the module the kernel source needs to be *prepared*. This was a crucial step in my attempt to get it working.
-
-Go to the the Goldfish kernel directory and run this:
-
-{% highlight bash %}
-make ARCH=arm CROSS_COMPILE=~/android-sdks/android-ndk-r4/build/prebuilt/linux-x86/arm-eabi-4.4.0/bin/arm-eabi- modules_prepare
-{% endhighlight %}
-
-Once this is done, you can go ahead an compile the *Hello* module using the Makefile from above.
-
-Upon completion, we can push the module to the emulator.
-
-{% highlight bash %}
-adb push hello.ko /sdcard
-{% endhighlight %}
-
-Now we connect to the emulator using <code>adb shell</code> and load the module like this:
-
-{% highlight bash %}
-insmod /sdcard/hello.ko
-{% endhighlight %}
-
-You should see the output of the module in the shell from which you ran the emulator.
-
-If you module did not load, or it did load but you cannot *rrmod* it, then the following options are disable in the kernel config. Below you can see a working config.
-
-{% highlight bash %}
-CONFIG_MODULES=y (this needs to be set to allow loading)
-# CONFIG_MODULE_FORCE_LOAD is not set
-CONFIG_MODULE_UNLOAD=y
-CONFIG_MODULE_FORCE_UNLOAD=y
-# CONFIG_MODVERSIONS is not set
-# CONFIG_MODULE_SRCVERSION_ALL is not set
-{% endhighlight %}
-
-* CONFIG_MODULES needs to be enabled to load modules
-* CONFIG_MODULES_UNLOAD is necessary for unloading modules
-* CONFIG_MODULES_FORCE_UNLOAD yes, you sometimes need the force ;)
-
-This this should be it.
