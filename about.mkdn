@@ -5,9 +5,7 @@ title:  About
 
 ### About me ###{: class="vlist"}
 
-This is eeknay's site.
-
-Content to follow.
+This is eeknay's blog.
 
 ### Disclaimers ###{: class="vlist"}
 

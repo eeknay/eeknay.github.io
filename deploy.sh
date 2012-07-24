@@ -1,3 +1,3 @@
 #!/bin/bash
 cd _site
-sudo cp -av . /srv/www/lighttpd/eeknay.net
+rsync --delete -avze ssh . eeknay:/srv/www/lighttpd/eeknay.net
