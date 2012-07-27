@@ -1,4 +1,8 @@
 #!/bin/bash
+#
+# BASH deploy script
+#
+
 rm -rf _site
 jekyll
 cd _site
