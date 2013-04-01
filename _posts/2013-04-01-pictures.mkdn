@@ -1,0 +1,26 @@
+---
+layout: post
+title: Pictures
+tags: 
+---
+
+So yesterday and today I set up something to host some pictures of my own.
+
+Since I like my static hosting setup, I searched for something static to generated albums from the pictures located in some folder.
+
+After fiddeling with [llgal](http://home.gna.org/llgal/) (which sucked), and [jalbum](http://jalbum.net/) (which sucked even more), I came accross [Sigal](http://sigal.saimon.org/en/latest/). I also tried [python photoweb](https://github.com/mnot/photoweb) which might do some good.
+
+Sigal came with some really nice out-of-the-box templates based off [galleria](http://galleria.io/) and [colorbox](http://www.jacklmoore.com/colorbox/), a lightbox clone.
+
+#### Sigal ####
+
+Here are the the features I needed:
+
+- batch processing of image directories
+- resizing images
+- thumbnailing
+- generating static html using good looking templates.
+
+A simple "sigal build $directory" does the job after initializing a config file.
+
+Take a look at the [album](http://pics.eeknay.net/troopers2013) I generated for the Trooper13 Infosec Conference.
