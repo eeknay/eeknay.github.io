@@ -1,0 +1,57 @@
+---
+layout: post
+title: Restoring fsarchiver images using /dev/loop
+tags: [linux, fsarchiver, backup]
+---
+
+The last couple of days I've been making images of some hacked boxes.
+This involved using [fsarchiver](http://www.http://www.fsarchiver.org/) which is a great tool by the way.
+
+In order to check if the images that I created are actually ok and can be restored/mounted for forensic purposes, I tested it using the loopback device of Linux. This is necessary as fsarchiver operates on block devices, thus, you cannot just dump it into a file.
+
+First I created a file large enough to fit the fsarchiver image (10GB in this case)
+
+{% highlight bash %}
+
+$ dd if=/dev/zero of=device.img count=10 bs=1G 
+
+{% endhighlight %}
+
+
+Next, I chose an unsued loopback device, i.e., /dev/loop0
+
+{% highlight bash %}
+
+$ sudo losetup /dev/loop0 device.img
+
+{% endhighlight %}
+
+After that, I used fsarchiver to restore the image to the created file via /dev/loop0
+
+{% highlight bash %}
+
+$ sudo fsarchiver restfs fsarchiver_dump.fsa id=0,dest=/dev/loop0
+
+{% endhighlight %}
+
+
+Once you have done that, you can create some mount point and mount the loopback device to that destination.
+
+{% highlight bash %}
+
+$ mkdir tmp
+$ sudo mount /dev/loop0 tmp
+
+{% endhighlight %}
+
+Now you can happily browse and forensic the crap out of the image.
+
+Cleanup involves the following:
+
+{% highlight bash %}
+
+$ sudo umount tmp
+$ sudo losetup -d /dev/loop0
+$ rm  -r tmp device.img
+
+{% endhighlight %}
