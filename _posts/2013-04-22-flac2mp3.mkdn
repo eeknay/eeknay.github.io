@@ -1,0 +1,15 @@
+---
+layout: post
+title: FLAC to MP3
+tags: music tools
+---
+
+So I came across some FLAC files. Quite nice, however, too big for my MP3 player/phone.
+
+Conversion to VBR MP3 works like this:
+
+{% highlight bash %}
+for file in *.flac; do $(flac -cd "$file" | lame -V 0 - "${file%.flac}.mp3"); done
+{% endhighlight %}
+
+Have phun!
