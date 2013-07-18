@@ -1,0 +1,35 @@
+---
+layout: post
+title: pdflatex font embedding
+tags: [latex]
+---
+
+So, publishing papers sometimes involves using IEEE's [PDF eXpress](http://www.pdf-express.org/).
+
+Today I found that pdflatex is not embedding the font required for the publishing process.
+
+This seems to be a working solution:
+
+First convert your PDF file to Postscript:
+
+{% highlight bash %}
+
+pdftops main.pdf main.ps
+
+{% endhighlight %}
+
+Then, reconvert the PDF back and enforce font embedding:
+
+{% highlight bash %}
+
+ps2pdf14 -dPDFSETTINGS=/prepress -dEmbedAllFonts=true main.ps main2.pdf
+
+{% endhighlight %}
+
+To see if the fonts that you need are embedded, run 
+
+{% highlight bash %}
+
+pdffonts main.pdf
+
+{% endhighlight %}
