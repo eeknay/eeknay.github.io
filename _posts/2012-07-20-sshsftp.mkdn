@@ -8,7 +8,7 @@ Filesharing in 2012 still sucks. I just wanted a friend to be able to download a
 
 It turns out this is not possible ;) Windows, Linux, MacOSX dafuq?!
 Due to serious firewall fuck-up at me friends place I decided to setup an account on my box.
-But my fried should still be jailed in his home and the tranfer and the login should be secured.
+But my friend should still be jailed in his home and the transfer and the login should be secured.
 
 Enter SFTP and SSH.
 
