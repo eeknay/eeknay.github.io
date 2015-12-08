@@ -1,18 +1,14 @@
-destination: ./_site
-baseurl:     /blog/
-auto:        false
-lsi:         false
-server_port: 8080
-pygments:    true
-markdown:    kramdown
-#permalink:   date
-permalink:   pretty
-paginate:    5
-maruku:
-  use_tex:   false
-  use_divs:  false
-  png_dir:   images/latex/
-  png_url:   /blog/images/latex/
-exclude:
-  - README.txt
-  - Rakefile
+# Site settings
+title: Twenty Blog
+email: your-email@domain.com
+description: > # this means to ignore newlines until "baseurl:"
+  Write an awesome description for your new site here. You can edit this
+  line in _config.yml. It will appear in your document head meta (for
+  Google search results) and in your feed.xml site description.
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://locahost:4000" # the base hostname & protocol for your site
+twitter_username: jekyllrb
+github_username:  jekyll
+
+# Build settings
+markdown: kramdown
