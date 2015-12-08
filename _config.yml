@@ -4,7 +4,7 @@ auto:        false
 lsi:         false
 server_port: 8080
 pygments:    true
-markdown:    maruku
+markdown:    kramdown
 #permalink:   date
 permalink:   pretty
 paginate:    5
